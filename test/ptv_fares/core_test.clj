@@ -2,9 +2,15 @@
   (:require [clojure.test :refer :all]
             [ptv-fares.core :refer :all]))
 
-(deftest myki-pass-starts-on-monday-and-ends-on-sunday
-  (testing "actual days used will be only weekdays"
-           (is (= 20 (used-days 28)))))
+(deftest actual-used-days-will-be-weekdays
+  (testing "starting on Monday and ending on Sunday"
+           (is (= 25 (used-days 35))))
+
+  (testing "starting on Monday and ending on Saturday"
+           (is (= 25 (used-days 34))))
+
+  (testing "starting on Monday and ending on Friday"
+           (is (= 25 (used-days 33)))))
 
 (deftest myki-pass-starts-on-monday-and-ends-on-weekday
   (testing "actual days used will be weekdays in the full weeks, plus weekdays in the partial week"

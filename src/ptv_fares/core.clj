@@ -13,10 +13,14 @@
     (- total-paid-days (paid-days-in-full-weeks))))
 
 (defn used-days [paid-days]
-  (let [weekdays-in-full-weeks (comp (partial * 5) #(full-weeks paid-days))
-        leftover               (remaining-days-in-partial-week paid-days)
-        is-full-week?          (fn [] (zero? (rem paid-days 7)))]
+  (let [weekdays                   (fn [days]
+                                     (->> (full-weeks days)
+                                          (* 5)))
+        leftover                   (remaining-days-in-partial-week paid-days)
+        ends-on-saturday?          (fn [] (zero? (rem (inc paid-days) 7)))
+        ends-on-sunday?            (fn [] (zero? (rem paid-days 7)))]
     (cond
-      (is-full-week?)             (weekdays-in-full-weeks)
-      :else                       (->> (weekdays-in-full-weeks)
-                                       (+ leftover)))))
+      (ends-on-saturday?)           (weekdays (inc paid-days))
+      (ends-on-sunday?)             (weekdays paid-days)
+      :else                         (->> (weekdays paid-days)
+                                         (+ leftover)))))
