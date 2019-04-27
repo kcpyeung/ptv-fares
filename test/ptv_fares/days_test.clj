@@ -1,6 +1,6 @@
-(ns ptv-fares.core-test
+(ns ptv-fares.days-test
   (:require [clojure.test :refer :all]
-            [ptv-fares.core :refer :all]))
+            [ptv-fares.days :refer [used-days]]))
 
 (deftest actual-used-days-will-be-weekdays
   (testing "starting on Monday and ending on Sunday"
